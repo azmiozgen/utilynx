@@ -1,3 +1,17 @@
+# Admin
+
+## Add user with home directory and with group
+
+`sudo adduser -m -d <home directory> -s /bin/bash -U <user name>`
+
+## Set user's password
+
+`sudo passwd <username>`
+
+## Add user to sudoers
+
+`sudo usermod -aG sudo <user name>`
+
 # Conda
 
 ## Add kernels to Jupyter
