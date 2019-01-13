@@ -107,15 +107,6 @@
 
 
 
-# Privacy
-
-## ssh-key generation
-
-`ssh-keygen -t rsa -b 4096 -o -a 100`
-
-
-
-
 # OS
 
 ## Stop-Run CPU cores
@@ -129,5 +120,19 @@
 `ps -eo pid,lstart,cmd | grep <process_name e.g. python>`
 
 
+
+# Privacy
+
+## ssh-key generation
+
+`ssh-keygen -t rsa -b 4096 -o -a 100`
+
+
+
+# Screen
+
+## Get screen size
+
+`xrandr | grep ' connected'`
 
 
