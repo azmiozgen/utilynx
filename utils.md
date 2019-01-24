@@ -12,16 +12,37 @@
 
 `sudo usermod -aG sudo <user name>`
 
+
+
 # Conda
 
+## List environments
+
+`conda env list` or `conda info -e`
+
+## List packages in environment
+
+`conda list`
+
 ## Add kernels to Jupyter
+
 `conda install nb_conda_kernels`
+
+
 
 # Docker
 
 ## Create Docker container from image and use volume
 
 `docker run -v <local-path>:<new-path-on-docker> -it <image-id> /bin/bash`
+
+## Run docker container
+
+`docker start <container-id>`
+
+`docker exec -it <container-id> /bin/bash`
+
+
 
 # Document
 
@@ -32,6 +53,7 @@
 * `gs -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -dPDFSETTINGS=/screen -dNOPAUSE -dQUIET -dBATCH -sOutputFile=output.pdf input.pdf`  ## even smaller
 
 ## md to pdf
+
 `pandoc  <md-file> -s -o <pdf-file>`
 
 ## Scanning
@@ -44,6 +66,8 @@
 
 `scanimage -d "<device-name>" --format tiff > <scanned_doc.tiff>`
 
+
+
 # Files
 
 ## Replace space with underscore
@@ -55,6 +79,8 @@
 `for f in *; do mv "$f" "${f/\(/}"; done`
 
 `for f in *; do mv "$f" "${f/\)/}"; done`
+
+
 
 # Gcloud
 
@@ -82,6 +108,8 @@
 
 `gsutil cp -r <FILES> gs://<BUCKET_NAME>`
 
+
+
 # Git
 
 ## Recover deleted branch
@@ -94,6 +122,18 @@
 ## Git pull-push with specific ssh-key
 
 `ssh-agent bash -c 'ssh-add ~/.ssh/azmi; git pull'`
+
+## Remove unnecessary objects from .git
+
+1. Find the biggest 10 objects with `git verify-pack -v .git/objects/pack/pack-ebdff2509d4fab153db9a62ea7764875873d827f.idx | sort -k 3 -n | tail -10`
+2. Get object name with `git rev-list --objects --all | grep <sha1 code from the 1st command>`
+3. Remove objects with `git filter-branch --index-filter 'git rm --cached --ignore-unmatch <filename-pattern>' -- --all`
+4. `rm -Rf .git/refs/original/`
+5. `rm -Rf .git/logs`
+6. Continue step 3. by removing other filename-patterns.
+7. If done with 6. prune with `git gc --prune=now --aggressive`
+
+
 
 # Image
 
