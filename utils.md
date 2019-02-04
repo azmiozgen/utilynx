@@ -38,9 +38,8 @@
 
 ## Run docker container
 
-`docker start <container-id>`
-
-`docker exec -it <container-id> /bin/bash`
+1. `docker start <container-id>`
+2. `docker exec -it <container-id> /bin/bash`
 
 
 
@@ -125,7 +124,7 @@
 
 ## Remove unnecessary objects from .git
 
-1. Find the biggest 10 objects with `git verify-pack -v .git/objects/pack/pack-ebdff2509d4fab153db9a62ea7764875873d827f.idx | sort -k 3 -n | tail -10`
+1. Find the biggest 10 objects with `git verify-pack -v .git/objects/pack/pack-*.idx | sort -k 3 -n | tail -10`
 2. Get object name with `git rev-list --objects --all | grep <sha1 code from the 1st command>`
 3. Remove objects with `git filter-branch --index-filter 'git rm --cached --ignore-unmatch <filename-pattern>' -- --all`
 4. `rm -Rf .git/refs/original/`
@@ -174,6 +173,14 @@
 ## Get screen size
 
 `xrandr | grep ' connected'`
+
+
+
+# Sed
+
+## Substitute (Replace)
+
+* In the entire file for all occurrences in place `sed -i 's/<old_pattern>/<new_pattern>/g' <file_name>`
 
 
 
