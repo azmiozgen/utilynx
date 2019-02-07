@@ -26,7 +26,8 @@
 
 ## Add kernels to Jupyter
 
-`conda install nb_conda_kernels`
+1. `conda install nb_conda_kernels`
+2. `python -m ipykernel install --user --name <env_name>`
 
 
 
