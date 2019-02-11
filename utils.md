@@ -10,7 +10,8 @@
 
 ## Add user to sudoers
 
-`sudo usermod -aG sudo <user name>`
+1. `sudo usermod -aG sudo <user name>`
+2. Logout and login
 
 
 
