@@ -2,11 +2,15 @@
 
 ## Add user with home directory and with group
 
-`sudo adduser -m -d <home directory> -s /bin/bash -U <user name>`
+`sudo adduser --home <home directory> --shell /bin/bash <user_name>`
 
 ## Set user's password
 
 `sudo passwd <username>`
+
+## See sudoers
+
+`grep "sudo" /etc/group`
 
 ## Add user to sudoers
 
