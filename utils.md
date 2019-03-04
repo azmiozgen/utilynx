@@ -51,13 +51,17 @@
 
 # Document
 
+## Separate pdf pages
+
+`pdftk <input-pdf> cat <page_number> output <output_pdf>`
+
 ## PDF compress
 
 * `ps2pdf input.pdf output.pdf`
 * `gs -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -dPDFSETTINGS=/ebook -dNOPAUSE -dQUIET -dBATCH -sOutputFile=output.pdf input.pdf`
 * `gs -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -dPDFSETTINGS=/screen -dNOPAUSE -dQUIET -dBATCH -sOutputFile=output.pdf input.pdf`  ## even smaller
 
-## md to pdf
+## Markdown to pdf
 
 `pandoc  <md-file> -s -o <pdf-file>`
 
