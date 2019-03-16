@@ -141,6 +141,7 @@
 5. `rm -Rf .git/logs`
 6. Continue step 3. by removing other filename-patterns.
 7. If done with 6. prune with `git gc --prune=now --aggressive`
+8. `git push --force`
 
 
 
