@@ -201,6 +201,12 @@
 * In the entire file for all occurrences in place `sed -i 's/<old_pattern>/<new_pattern>/g' <file_name>`
 
 
+# Valgrind
+
+## For analyze with GUI Valkyrie
+
+* `valgrind --tool=memcheck --leak-check=full --track-origins=yes --xml=yes --xml-file=valgrind_output.xml <binary_file>`
+
 
 # Vim
 
