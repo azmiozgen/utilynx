@@ -59,7 +59,7 @@
 
 * `ps2pdf input.pdf output.pdf`
 * `gs -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -dPDFSETTINGS=/ebook -dNOPAUSE -dQUIET -dBATCH -sOutputFile=output.pdf input.pdf`
-* `gs -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -dPDFSETTINGS=/screen -dNOPAUSE -dQUIET -dBATCH -sOutputFile=output.pdf input.pdf`  ## even smaller
+* Even smaller: `gs -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -dPDFSETTINGS=/screen -dNOPAUSE -dQUIET -dBATCH -sOutputFile=output.pdf input.pdf`
 
 ## Markdown to pdf
 
@@ -143,6 +143,21 @@
 7. If done with 6. prune with `git gc --prune=now --aggressive`
 8. `git push --force`
 
+## Submodules
+
+### Clone with submodules
+
+* `git clone --recursive <URL to Git repo>`
+* `git submodule update --init --recursive` (Already cloned repository)
+
+### Pull with submodules
+
+* `git pull --recurse-submodules`
+
+### Add submodule
+
+* `git submodule add <URL to Git repo>`
+* `git submodule init`
 
 
 # Image
@@ -162,8 +177,8 @@
 ## Stop-Run CPU cores
 
 1. Go root
-2. Stop: `echo 0> /sys/devices/system/cpu/cpu<X>/online` ## X is cpu index
-3. Run:  `echo 1> /sys/devices/system/cpu/cpu<X>/online`
+2. Stop: `echo 0> /sys/devices/system/cpu/cpu<cpu_index>/online`
+3. Run:  `echo 1> /sys/devices/system/cpu/cpu<cpu_index>/online`
 
 ## See process start time
 
