@@ -176,6 +176,10 @@
 
 `convert <img_in> -set colorspace sRGB -type truecolor <img_out>`
 
+### Check if image is valid
+
+`identify <img_in> &> /dev/null; echo $?`  (0 if valid, else 1)
+
 
 
 ## OS
