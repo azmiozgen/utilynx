@@ -79,11 +79,15 @@
 
 
 
-## Files
+## Filenames
+
+### Remove all invalid characters
+
+`for f in *; do mv ${f} $(echo ${f} | sed -e 's/[^A-Za-z0-9._-]//g'); done`
 
 ### Replace space with underscore
 
-`for f in *; do mv "$f" ${f// _/}; done`
+`for f in *; do mv "$f" "${f// /_}"; done`
 
 ### Remove parantheses (left and right))
 
