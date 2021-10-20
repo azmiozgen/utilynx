@@ -4,11 +4,11 @@
 
 ### Add user with home directory and with group
 
-`sudo adduser --home <home directory> --shell /bin/bash <user_name>`
+`sudo adduser --home <home_directory> --shell /bin/bash <user_name>`
 
 ### Set user's password
 
-`sudo passwd <username>`
+`sudo passwd <user_name>`
 
 ### See sudoers
 
@@ -16,7 +16,7 @@
 
 ### Add user to sudoers
 
-1. `sudo usermod -aG sudo <user name>`
+1. `sudo usermod -aG sudo <user_name>`
 2. Logout and login
 
 
@@ -101,6 +101,7 @@
 * `sed 's/./&\n/g' <input_file> | sort -u -o <output_file>`
 
 
+
 ## Gcloud
 
 ### List accounts
@@ -170,6 +171,7 @@
 * `git submodule init`
 
 
+
 ## Image
 
 ### Convert to gray
@@ -219,7 +221,13 @@
 
 1. `sudo xrandr --newmode "1920x1080_60.00"  173.00  1920 2048 2248 2576  1080 1083 1088 1120 -hsync +vsync`
 2. Get display port name with `sudo xrandr`
-2. `sudo xrandr --addmode eDP-1-1 "1920x1080_60.00"` (eDP-1-1 is embedded display port namely laptop screen)
+3. `sudo xrandr --addmode eDP-1-1 "1920x1080_60.00"` (eDP-1-1 is embedded display port namely laptop screen)
+
+### Set graphics tablet screen
+
+1. See tablet ids with `xsetwacom list`
+2. See screen outputs with `xrandr`
+3. For the first screen e.g. `xsetwacom --set <id> MapToOutput HEAD-0` or for the second screen `xsetwacom --set <id> MapToOutput HEAD-1` where <id> is the tablet id
 
 
 
