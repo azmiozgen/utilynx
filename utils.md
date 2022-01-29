@@ -97,7 +97,7 @@
 
 ### Find all unique characters in a file
 
-* `fold -w1 <input_file> | sort -u -o <output_file>`           <!-- Problematic with non-printable characters -->
+* `fold -w1 <input_file> | sort -u -o <output_file>`    <!-- Problematic with non-printable characters -->
 * `sed 's/./&\n/g' <input_file> | sort -u -o <output_file>`
 
 
