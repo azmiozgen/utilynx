@@ -1,7 +1,7 @@
 # Tesseract
 
 ## Standard OCR
-* `tesseract --psm 1 --oem 1 -l eng text.txt text`
+* `tesseract -l eng --oem 2 --psm 8 -c tessedit_char_whitelist=0123456789., <image-file> stdout`
 
 ### psm (Page Segmentation Modes)
 * 0 Orientation and script detection (OSD) only.
@@ -27,3 +27,21 @@
 
 ## Get character box coordinates in a file with extension '.box'
 * `tesseract --psm 1 --oem 2 <input_image_file> <output_file_wo_extension> makebox`
+
+## Limit characters
+* `tesseract <image_file> stdout -c tessedit_char_whitelist=0123456789.,`
+
+## List all available languages
+* `tesseract --list-langs`
+
+## List all parameters
+* `tesseract --print-parameters`
+
+## Print output to standard out
+* `tesseract <image_file> stdout`
+
+## Use multiple languages together
+* `tesseract -l eng+deu+fra+ita+spa+por <image_file> <output_file>`
+
+## Write output to text file
+* `tesseract <image_file> <text_file>`
