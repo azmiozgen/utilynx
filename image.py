@@ -1,7 +1,10 @@
 import os
 
+import cv2
 import numpy as np
 from PIL import Image, ImageColor, ImageDraw, ImageFont
+
+from numeric import get_l2_norm
 
 def crop_pil_image(image, bbox):
     '''
@@ -59,6 +62,22 @@ def draw_bbox_on_image(image, bbox, text,
 
     return image
 
+def extend_line_segment(p1, p2, w):
+    '''
+    Extend a line segment
+    p1: (x1, y1)
+    p2: (x2, y2)
+    w: width of the image
+    '''
+    x1, y1 = p1
+    x2, y2 = p2
+    x1_new = 0
+    x2_new = w
+    slope = (y2 - y1) / (x2 - x1)
+    y1_new = int(y1 + slope * (x1_new - x1))
+    y2_new = int(y2 + slope * (x2_new - x2))
+    return x1_new, y1_new, x2_new, y2_new
+
 def read_pil_image(image_file):
     '''
     Read a PIL image
@@ -71,9 +90,35 @@ def write_pil_image(image, image_file):
     '''
     image.save(image_file)
 
+def warp_four_corners(image, corners):
+    '''
+    Warp four corners of a polygon on image
+    Opposite corners will be aligned horizontally
+    image: numpy array
+    corners: ((x1, y1), (x2, y2), (x3, y3), (x4, y4)) from top to bottom clockwise
+    '''
+    x1, y1 = corners[0]
+    x2, y2 = corners[1]
+    x3, y3 = corners[2]
+    x4, y4 = corners[3]
+    h, w, _ = image.shape
+    height1 = get_l2_norm(np.array([x1, y1]), np.array([x3, y3]))
+    height2 = get_l2_norm(np.array([x2, y2]), np.array([x4, y4]))
+
+    if height1 <= height2:
+        new_corners = np.float32([[x1, y2], [x2, y2], [x3, y3], [x4, y3]])
+    else:
+        new_corners = np.float32([[x1, y1], [x2, y1], [x3, y4], [x4, y4]])
+
+    transformation_matrix = cv2.getPerspectiveTransform(np.array(corners, dtype=np.float32),
+                                                        new_corners)
+    image_warped = cv2.warpPerspective(image, transformation_matrix, (w, h), flags=cv2.INTER_LINEAR)
+
+    return image_warped
 
 if __name__ == '__main__':
     image_file = os.path.join('asset', 'girl_with_pearl_earring.jpg')
+    ## w, h, c = (1200, 800, 3)
 
     ## Test read_pil_image
     image = read_pil_image(image_file)
@@ -87,4 +132,30 @@ if __name__ == '__main__':
     output_file = os.path.join('output', 'girl_with_pearl_earring.jpg')
     os.makedirs('output', exist_ok=True)
     write_pil_image(image, output_file)
+    print(output_file, 'written.')
+
+    ## Test extend_line_segment on black image and show the image
+    w, h = 100, 100
+    image = Image.new('RGB', (w, h), (50, 50, 50))
+    p1 = (60, 30)
+    p2 = (50, 50)
+    x1_new, y1_new, x2_new, y2_new = extend_line_segment(p1, p2, w)
+    draw = ImageDraw.Draw(image)
+    draw.line([(x1_new, y1_new), (x2_new, y2_new)], fill='red', width=3)
+    draw.line([p1, p2], fill='white', width=4)
+    output_file = os.path.join('output', 'extend_line_segment.jpg')
+    os.makedirs('output', exist_ok=True)
+    write_pil_image(image, output_file)
+    print(output_file, 'written.')
+
+    ## Test warp_four_corners on image_file
+    image = cv2.imread(image_file)
+    corners = ((100, 100), (1000, 200), (800, 600), (200, 700))
+    ## draw circles on corners
+    for corner in corners:
+        cv2.circle(image, corner, 5, (0, 0, 255), -1)
+    image_warped = warp_four_corners(image, corners)
+    output_file = os.path.join('output', 'girl_with_pearl_earring_warped.jpg')
+    os.makedirs('output', exist_ok=True)
+    cv2.imwrite(output_file, image_warped)
     print(output_file, 'written.')
