@@ -54,12 +54,30 @@ def remove_non_numeric_chars(string):
     '''
     return re.sub(r'[^0-9]', '', string)
 
-def remove_vowels(string):
+def remove_vowels(s):
     '''
     Remove all vowels from a string.
     '''
-    return re.sub(r'[aeiouAEIOU]', '', string)
-    # return ''.join(filter(lambda x: x not in 'aeiouAEIOU', string))
+    return ''.join(filter(lambda x: x not in 'aeiouAEIOU', s))
+
+def replace_chars_by_dict(s, replacement_dict):
+    '''
+    Replace characters in a string by the values in the replacement_dict.
+    '''
+    for k, v in replacement_dict.items():
+        s = s.replace(k, v)
+    return s
+
+def substrip(s, sub_s):
+    '''
+    Strip trailing substring from a string.
+    '''
+    sub_s_length = len(sub_s)
+    if s.startswith(sub_s):
+        s = s[sub_s_length:]
+    if s.endswith(sub_s):
+        s = s[:-sub_s_length]
+    return s
 
 def write_json(json_file, data, indent=4):
     '''
@@ -75,13 +93,27 @@ if __name__ == '__main__':
     print(flatten_list_of_lists([[1, 2], [3, 4]]))
 
     ## Test get_most_common_element_and_its_count
-    print('Test get_most_common_element_and_its_count with [1, 2, 3, 1, 2, 3, 1, 2, 3]')
+    print('\nTest get_most_common_element_and_its_count with [1, 2, 3, 1, 2, 3, 1, 2, 3]')
     print(get_most_common_element_and_its_count([1, 2, 3, 1, 2, 3, 1, 2, 3]))
 
     ## Test print_table
-    print('Test print_table with [[1, 2, 3], [4, 5, 6]]')
+    print('\nTest print_table with [[1, 2, 3], [4, 5, 6]]')
     print_table([[1, 2, 3], [4, 5, 6]])
 
     ## Test remove_vowels
-    print('Test remove_vowels with "sa 00sadl23.txt"')
+    print('\nTest remove_vowels with "sa 00sadl23.txt"')
     print(remove_vowels('sa 00sadl23.txt'))
+
+    ## Test replace_chars_by_dict
+    print('\nTest replace_chars_by_dict with "sarımsaksız yoğurt" and {"ı": "i", "ğ": "g"}')
+    print(replace_chars_by_dict('sarımsaksız yoğurt', {'ı': 'i', 'ğ': 'g'}))
+
+    ## Test substrip
+    print('\nTest substrip with "sa 00sadl23.txt" and "sa"')
+    print(substrip('sa 00sadl23.txt', 'sa'))
+    print('Test substrip with "sa 00sadl23.txt" and "00"')
+    print(substrip('sa 00sadl23.txt', '00'))
+    print('Test substrip with "sa 00sadl23.txt" and "23"')
+    print(substrip('sa 00sadl23.txt', '23'))
+    print('Test substrip with "sa 00sadl23.txt" and "txt"')
+    print(substrip('sa 00sadl23.txt', 'txt'))

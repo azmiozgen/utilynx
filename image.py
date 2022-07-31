@@ -84,6 +84,20 @@ def read_pil_image(image_file):
     '''
     return Image.open(image_file)
 
+def trim_borders(image, bg=0):
+    '''
+    Trim borders of binary image
+    '''
+    h, w = image.shape[:2]
+    region = np.where(image != bg)
+    ymin, ymax = region[0].min(), region[0].max()
+    xmin, xmax = region[1].min(), region[1].max()
+    ymin = max(0, ymin - 1)
+    ymax = min(h, ymax + 1)
+    xmin = max(0, xmin - 1)
+    xmax = min(w, xmax + 1)
+    return image[ymin:ymax, xmin:xmax]
+
 def write_pil_image(image, image_file):
     '''
     Write a PIL image
@@ -119,6 +133,9 @@ def warp_four_corners(image, corners):
 if __name__ == '__main__':
     image_file = os.path.join('asset', 'girl_with_pearl_earring.jpg')
     ## w, h, c = (1200, 800, 3)
+    image_file2 = os.path.join('asset', 'binary_head.png')
+    ## w, h, c = (488, 275, 3)
+    os.makedirs('output', exist_ok=True)
 
     ## Test read_pil_image
     image = read_pil_image(image_file)
@@ -148,6 +165,13 @@ if __name__ == '__main__':
     write_pil_image(image, output_file)
     print(output_file, 'written.')
 
+    ## Test trim_borders
+    image_binary = cv2.imread(image_file2, cv2.IMREAD_GRAYSCALE)
+    image_binary_trimmed = trim_borders(image_binary)
+    output_file = os.path.join('output', 'binary_head_trimmed.png')
+    cv2.imwrite(output_file, image_binary_trimmed)
+    print(output_file, 'written.')
+
     ## Test warp_four_corners on image_file
     image = cv2.imread(image_file)
     corners = ((100, 100), (1000, 200), (800, 600), (200, 700))
@@ -156,6 +180,5 @@ if __name__ == '__main__':
         cv2.circle(image, corner, 5, (0, 0, 255), -1)
     image_warped = warp_four_corners(image, corners)
     output_file = os.path.join('output', 'girl_with_pearl_earring_warped.jpg')
-    os.makedirs('output', exist_ok=True)
     cv2.imwrite(output_file, image_warped)
     print(output_file, 'written.')
