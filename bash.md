@@ -47,15 +47,24 @@
 `REGEX="s/\d+/sprintf('%0${PAD}d',$&)/e"`
 `rename -e ${REGEX} -- <files>`
 
-## Remove all invalid characters
+## Remove all invalid characters from file names
 `for f in *; do mv ${f} $(echo ${f} | sed -e 's/[^A-Za-z0-9._-]//g'); done`
 
-## Replace space with underscore
-`for f in *; do mv "$f" "${f// /_}"; done`
+## Remove lines starting with a pattern from a file
+`sed -i '/<pattern>/d' <file>`
+`sed -i '/^#/d' <file>`  <!-- Remove lines starting with # -->
+`sed -i '/^[#,*]/d' <file>`  <!-- Remove lines starting with # or * -->
 
-## Remove parantheses (left and right))
+## Remove lines not starting with a pattern from a file
+`sed -i '/^<pattern>/!d' <file>`
+`sed -i '/^[^#]/!d' <file>`  <!-- Remove lines not starting with # -->
+
+## Remove parantheses (left and right)) from file names
 `for f in *; do mv "$f" "${f/\(/}"; done`
 `for f in *; do mv "$f" "${f/\)/}"; done`
+
+## Replace space with underscore in file names
+`for f in *; do mv "$f" "${f// /_}"; done`
 
 ## Separate pdf pages
 `pdftk <input_pdf> cat <page_number> output <output_pdf>`
