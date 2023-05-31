@@ -66,6 +66,15 @@
 ## Replace space with underscore in file names
 `for f in *; do mv "$f" "${f// /_}"; done`
 
+## Rename files with a pattern in it
+`rename -n 's/<old_pattern>/<new_pattern>/' <files>`
+
+### Remove specific part from file names
+`rename -n 's/<old_pattern>//g' <files>`
+
+#### Remove .jpg from file names
+`rename -n 's/.jpg//g' *`
+
 ## Separate pdf pages
 `pdftk <input_pdf> cat <page_number> output <output_pdf>`
 
