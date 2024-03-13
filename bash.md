@@ -66,6 +66,9 @@
 ## Replace space with underscore in file names
 `for f in *; do mv "$f" "${f// /_}"; done`
 
+## Replace pattern in in file
+`sed -i 's/<old_pattern>/<new_pattern>/g' <file>`
+
 ## Rename files with a pattern in it
 `rename -n 's/<old_pattern>/<new_pattern>/' <files>`
 
@@ -77,6 +80,9 @@
 
 ## Separate pdf pages
 `pdftk <input_pdf> cat <page_number> output <output_pdf>`
+
+## Merge pdf pages
+`pdftk <input_pdf1> <input_pdf2> cat output <output_pdf>`
 
 ## Set graphics tablet screen
 1. See tablet ids with `xsetwacom list`
