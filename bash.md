@@ -20,6 +20,9 @@
 ## Convert markdown to pdf
 `pandoc  <md-file> -s -o <pdf-file>`
 
+## Download list of image urls
+`wget -i <txt_file> -P <output_directory>`
+
 ## Find all unique characters in a file
 * `fold -w1 <input_file> | sort -u -o <output_file>`    <!-- Problematic with non-printable characters -->
 * `sed 's/./&\n/g' <input_file> | sort -u -o <output_file>`
