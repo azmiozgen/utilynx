@@ -53,6 +53,10 @@
 ## Remove all invalid characters from file names
 `for f in *; do mv ${f} $(echo ${f} | sed -e 's/[^A-Za-z0-9._-]//g'); done`
 
+## Remove duplicate lines from a file in place
+`awk '!seen[$0]++' <input_file> > <output_file>`
+`sort -u <input_file> -o <output_file>`  <!-- Sort and remove duplicates -->
+
 ## Remove lines starting with a pattern from a file
 `sed -i '/<pattern>/d' <file>`
 `sed -i '/^#/d' <file>`  <!-- Remove lines starting with # -->
