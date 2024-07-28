@@ -142,6 +142,34 @@ def remove_vowels(string):
     # return ''.join(filter(lambda x: x not in 'aeiouAEIOU', string))
 
 
+def roman_numeral_to_int(s: str) -> int:
+    """
+    Convert a roman numeral to an integer.
+    """
+    roman_map = {'I': 1, 'V': 5, 'X': 10, 'L': 50, 'C': 100, 'D': 500, 'M': 1000}
+    total = 0
+    pass_char = False
+    for i, char in enumerate(s):
+        if pass_char:
+            pass_char = False
+            continue
+        char_val = roman_map[char]
+        if i == len(s) - 1:
+            char_next = None
+        else:
+            char_next = s[i + 1]
+            char_next_val = roman_map[char_next]
+        if char_next is None:
+            total += char_val
+        else:
+            if char_next_val <= char_val:
+                total += char_val
+            else:
+                total += char_next_val - char_val
+                pass_char = True
+    return total
+
+
 def write_json(json_file, data, indent=4):
     """
     Write data to a json file.
@@ -191,3 +219,12 @@ if __name__ == '__main__':
     print()
     print('Test remove_vowels with "sa 00sadl23.txt"')
     print(remove_vowels('sa 00sadl23.txt'))
+
+    ## Test roman_numeral_to_int
+    print()
+    print('Test roman_numeral_to_int with "III (3)"')
+    print(roman_numeral_to_int('III'))
+    print('Test roman_numeral_to_int with "MDCCLXXIII (1773)"')
+    print(roman_numeral_to_int('MDCCLXXIII'))
+    print('Test roman_numeral_to_int with "MCMXCVI (1996)"')
+    print(roman_numeral_to_int('MCMXCVI'))
