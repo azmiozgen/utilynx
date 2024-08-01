@@ -17,8 +17,35 @@ def bubble_sort(arr):
         for j in range(0, n - i - 1):
             if arr[j] > arr[j + 1]:
                 arr[j], arr[j + 1] = arr[j + 1], arr[j] # Swap
-
     return arr
+
+
+def can_construct_string(str1: str, str2: str) -> bool:
+    """
+    Check if str1 can be constructed from characters in str2.
+    Without Counter, go over str2 and construct a dictionary of characters and their counts.
+    Then, go over str1 and decrement the count of the character in the dictionary.
+    """
+    st1, st2 = Counter(str1), Counter(str2)
+    if st1 & st2 == st1:
+        return True
+    return False
+
+
+def climb_stairs(n):
+    """
+    You are climbing a staircase. It takes n steps to reach the top.
+    Each time you can either climb 1 or 2 steps. In how many distinct ways can you climb to the top?
+    For each n, you can get there either climbing 1 step from n-1 or 2 steps from n-2.
+    So, the number of ways to get to n is the sum of the number of ways to get to n-1 and n-2.
+    This is the Fibonacci sequence. Solution is the nth Fibonacci number.
+    """
+    if n in (0, 1):
+        return 1
+    prev, curr = 1, 1
+    for _ in range(2, n+1):
+        prev, curr = curr, prev + curr
+    return curr
 
 
 def find_power_set(s):
@@ -118,6 +145,45 @@ def print_table(rows, headers=None, tablefmt='fancy_grid'):
     print(tabulate(rows, headers=headers, tablefmt=tablefmt))
 
 
+def has_cycle(head):
+    """
+    Check if a linked list has a cycle.
+    class ListNode:
+        def __init__(self, x):
+            self.val = x
+            self.next = None
+    Time complexity: O(n)
+    Space complexity: O(1)
+    """
+    if not head:
+        return False
+    slow = head
+    fast = head
+    while fast and fast.next:
+        slow = slow.next
+        fast = fast.next.next
+        if fast == slow:
+            return True
+    return False
+
+
+def is_valid_parantheses(s):
+    """
+    Check if a string of parantheses is valid.
+    """
+    par_map = {')': '(', '}': '{', ']': '['}
+    opens = par_map.values()
+    stack = []
+    for char in s:
+        if char in opens:
+            stack.append(char)
+        else:
+            if not stack or par_map[char] != stack[-1]:
+                return False
+            stack.pop()
+    return not stack
+
+
 def read_json(json_file):
     """
     Read a json file and return the data.
@@ -184,6 +250,19 @@ if __name__ == '__main__':
     print('Test bubble_sort with', arr)
     print(bubble_sort(arr))
 
+    ## Test can_construct_string
+    print()
+    str1 = 'abc'
+    str2 = 'aabbcc'
+    print('Test can_construct_string with', str1, str2)
+    print(can_construct_string(str1, str2))
+
+    ## Test climb_stairs
+    print()
+    n = 4
+    print('Test climb_stairs with', n)
+    print(climb_stairs(n))
+
     ## Test find_power_set
     print()
     s = [1, 2, 3]
@@ -209,6 +288,26 @@ if __name__ == '__main__':
     print()
     print('Test get_most_common_element_and_its_count with [1, 2, 3, 1, 2, 3, 1, 2, 3]')
     print(get_most_common_element_and_its_count([1, 2, 3, 1, 2, 3, 1, 2, 3]))
+
+    ## Test has_cycle
+    print()
+    print('Test has_cycle with a linked list with cycle (3 -> 2 -> 0 -> 2)')
+    class ListNode:
+        def __init__(self, x):
+            self.val = x
+            self.next = None
+    head = ListNode(3)
+    head.next = ListNode(2)
+    head.next.next = ListNode(0)
+    head.next.next.next = head.next
+    print(has_cycle(head))
+
+    ## Test is_valid_parantheses
+    print()
+    print('Test is_valid_parantheses with "([])"')
+    print(is_valid_parantheses('([])'))
+    print('Test is_valid_parantheses with "([)]"')
+    print(is_valid_parantheses('([)]'))
 
     ## Test print_table
     print()
