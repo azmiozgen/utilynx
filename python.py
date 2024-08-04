@@ -5,6 +5,20 @@ import re
 from tabulate import tabulate
 
 
+# Helper functions
+class ListNode:
+    def __init__(self, val=0, next_=None):
+        self.val = val
+        self.next = next_
+
+
+class TreeNode:
+    def __init__(self, val=0, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
+
+
 def bubble_sort(arr):
     """
     Bubble sort an array.
@@ -114,6 +128,54 @@ def flatten_list_of_lists(list_of_lists):
     return [item for sublist in list_of_lists for item in sublist]
 
 
+def get_average_of_levels_in_binary_tree(root):
+    """
+    Get the average value of each level in a binary tree.
+    """
+    avgs = []
+    nodes = [root]
+    while any(nodes):
+        S = 0
+        nodes_new = []
+        n_nodes = 0
+        for node in nodes:
+            if node is None:
+                continue
+            S += node.val
+            nodes_new += [node.left, node.right]
+            n_nodes += 1
+        avgs.append(S / n_nodes)
+        nodes = nodes_new[:]
+    return avgs
+
+
+def get_digits(n):
+    """
+    Get the digits of a number.
+    123 -> [1, 2, 3]
+    """
+    digits = []
+    if n < 10:
+        return [n]
+    while n >= 10:
+        digits.append(n % 10)
+        n = n // 10
+    digits.append(n)
+    return digits[::-1]
+
+
+def get_max_depth_of_binary_tree(root) -> int:
+    """
+    Get the maximum depth of a binary tree.
+    Args:
+        root: TreeNode
+    """
+    if root is None:
+        return 0
+    return 1 + max(get_max_depth_of_binary_tree(root.left),
+                   get_max_depth_of_binary_tree(root.right))
+
+
 def get_most_common_element_and_its_count(list_of_elements):
     """
     Return the most common element and its count in a list.
@@ -124,6 +186,30 @@ def get_most_common_element_and_its_count(list_of_elements):
         return None, 0
     most_common, count = counter.most_common(1)[0]
     return most_common, count
+
+
+def get_sqrt_from_scratch(x: int) -> int:
+    """
+    Get the square root of a number without using the sqrt function.
+    Use binary search to find the square root.
+    """
+    if x == 0:
+        return 0
+    if x in [1, 2, 3]:
+        return 1
+    if x == 4:
+        return 2
+    upper = x // 2 + 1  ## Upper bound trick
+    lower = 2
+    while lower <= upper:
+        root = lower + (upper - lower) // 2
+        if root == x // root:
+            return root
+        if root > x // root:
+            upper = root - 1
+        else:
+            lower = root + 1
+    return upper
 
 
 def print_table(rows, headers=None, tablefmt='fancy_grid'):
@@ -148,10 +234,6 @@ def print_table(rows, headers=None, tablefmt='fancy_grid'):
 def has_cycle(head):
     """
     Check if a linked list has a cycle.
-    class ListNode:
-        def __init__(self, x):
-            self.val = x
-            self.next = None
     Time complexity: O(n)
     Space complexity: O(1)
     """
@@ -182,6 +264,33 @@ def is_valid_parantheses(s):
                 return False
             stack.pop()
     return not stack
+
+
+def merge_two_sorted_linked_lists(list1, list2):
+    """
+    list1 and list2 are the heads of two sorted linked lists.
+    Merge the two lists into one sorted list.
+    Return the head of the merged linked list.
+
+    """
+    dummy = ListNode()
+    cur = dummy
+
+    while list1 and list2:
+        if list1.val < list2.val:
+            cur.next = list1
+            list1 = list1.next
+        else:
+            cur.next = list2
+            list2 = list2.next
+        cur = cur.next
+
+    if list1:
+        cur.next = list1
+    else:
+        cur.next = list2
+
+    return dummy.next
 
 
 def read_json(json_file):
@@ -284,18 +393,49 @@ if __name__ == '__main__':
     print('Test flatten_list_of_lists with [[1, 2], [3, 4]]')
     print(flatten_list_of_lists([[1, 2], [3, 4]]))
 
+    ## Test get_average_of_levels_in_binary_tree
+    print()
+    print('Test get_average_of_levels_in_binary_tree with a binary tree with'
+          '[3, 9, 20, null, null, 15, 7] which is [3.0, 14.5, 11.0]')
+    root = TreeNode(3)
+    root.left = TreeNode(9)
+    root.right = TreeNode(20)
+    root.right.left = TreeNode(15)
+    root.right.right = TreeNode(7)
+    print(get_average_of_levels_in_binary_tree(root))
+
+    ## Test get_digits
+    print()
+    n = 123
+    print('Test get_digits with', n)
+    print(get_digits(n))
+
+    ## Test get_max_depth_of_binary_tree
+    print()
+    print('Test get_max_depth_of_binary_tree with a binary tree with'
+          '[3, 9, 20, null, null, 15, 7]')
+    root = TreeNode(3)
+    root.left = TreeNode(9)
+    root.right = TreeNode(20)
+    root.right.left = TreeNode(15)
+    root.right.right = TreeNode(7)
+    print(get_max_depth_of_binary_tree(root))
+
     ## Test get_most_common_element_and_its_count
     print()
     print('Test get_most_common_element_and_its_count with [1, 2, 3, 1, 2, 3, 1, 2, 3]')
     print(get_most_common_element_and_its_count([1, 2, 3, 1, 2, 3, 1, 2, 3]))
 
+    ## Test get_sqrt_from_scratch
+    print()
+    print('Test get_sqrt_from_scratch with', 8)
+    print(get_sqrt_from_scratch(8))
+    print('Test get_sqrt_from_scratch with', 122)
+    print(get_sqrt_from_scratch(122))
+
     ## Test has_cycle
     print()
     print('Test has_cycle with a linked list with cycle (3 -> 2 -> 0 -> 2)')
-    class ListNode:
-        def __init__(self, x):
-            self.val = x
-            self.next = None
     head = ListNode(3)
     head.next = ListNode(2)
     head.next.next = ListNode(0)
@@ -308,6 +448,21 @@ if __name__ == '__main__':
     print(is_valid_parantheses('([])'))
     print('Test is_valid_parantheses with "([)]"')
     print(is_valid_parantheses('([)]'))
+
+    ## Test merge_two_sorted_linked_lists
+    print()
+    print('Test merge_two_sorted_linked_lists with two linked lists'
+          '(1 -> 2 -> 4) and (1 -> 3 -> 4)')
+    list1 = ListNode(1)
+    list1.next = ListNode(2)
+    list1.next.next = ListNode(4)
+    list2 = ListNode(1)
+    list2.next = ListNode(3)
+    list2.next.next = ListNode(4)
+    merged = merge_two_sorted_linked_lists(list1, list2)
+    while merged:
+        print(merged.val, end='->')
+        merged = merged.next
 
     ## Test print_table
     print()
