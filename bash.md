@@ -20,6 +20,9 @@
 ## Convert markdown to pdf
 `pandoc  <md-file> -s -o <pdf-file>`
 
+## Download list of image urls
+`wget -i <txt_file> -P <output_directory>`
+
 ## Find all unique characters in a file
 * `fold -w1 <input_file> | sort -u -o <output_file>`    <!-- Problematic with non-printable characters -->
 * `sed 's/./&\n/g' <input_file> | sort -u -o <output_file>`
@@ -47,18 +50,46 @@
 `REGEX="s/\d+/sprintf('%0${PAD}d',$&)/e"`
 `rename -e ${REGEX} -- <files>`
 
-## Remove all invalid characters
+## Remove all invalid characters from file names
 `for f in *; do mv ${f} $(echo ${f} | sed -e 's/[^A-Za-z0-9._-]//g'); done`
 
-## Replace space with underscore
-`for f in *; do mv "$f" "${f// /_}"; done`
+## Remove duplicate lines from a file in place
+`awk '!seen[$0]++' <input_file> > <output_file>`
+`sort -u <input_file> -o <output_file>`  <!-- Sort and remove duplicates -->
 
-## Remove parantheses (left and right))
+## Remove lines starting with a pattern from a file
+`sed -i '/<pattern>/d' <file>`
+`sed -i '/^#/d' <file>`  <!-- Remove lines starting with # -->
+`sed -i '/^[#,*]/d' <file>`  <!-- Remove lines starting with # or * -->
+
+## Remove lines not starting with a pattern from a file
+`sed -i '/^<pattern>/!d' <file>`
+`sed -i '/^[^#]/!d' <file>`  <!-- Remove lines not starting with # -->
+
+## Remove parantheses (left and right)) from file names
 `for f in *; do mv "$f" "${f/\(/}"; done`
 `for f in *; do mv "$f" "${f/\)/}"; done`
 
+## Replace space with underscore in file names
+`for f in *; do mv "$f" "${f// /_}"; done`
+
+## Replace pattern in in file
+`sed -i 's/<old_pattern>/<new_pattern>/g' <file>`
+
+## Rename files with a pattern in it
+`rename -n 's/<old_pattern>/<new_pattern>/' <files>`
+
+### Remove specific part from file names
+`rename -n 's/<old_pattern>//g' <files>`
+
+#### Remove .jpg from file names
+`rename -n 's/.jpg//g' *`
+
 ## Separate pdf pages
 `pdftk <input_pdf> cat <page_number> output <output_pdf>`
+
+## Merge pdf pages
+`pdftk <input_pdf1> <input_pdf2> cat output <output_pdf>`
 
 ## Set graphics tablet screen
 1. See tablet ids with `xsetwacom list`
