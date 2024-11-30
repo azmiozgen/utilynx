@@ -380,40 +380,33 @@ def remove_non_numeric_chars(string):
     """
     return re.sub(r'[^0-9]', '', string)
 
-<<<<<<< HEAD
+
 def remove_vowels(s):
     '''
     Remove all vowels from a string.
     '''
     return ''.join(filter(lambda x: x not in 'aeiouAEIOU', s))
 
+
 def replace_chars_by_dict(s, replacement_dict):
-    '''
+    """
     Replace characters in a string by the values in the replacement_dict.
-    '''
+    """
     for k, v in replacement_dict.items():
         s = s.replace(k, v)
     return s
 
+
 def substrip(s, sub_s):
-    '''
+    """
     Strip trailing substring from a string.
-    '''
+    """
     sub_s_length = len(sub_s)
     if s.startswith(sub_s):
         s = s[sub_s_length:]
     if s.endswith(sub_s):
         s = s[:-sub_s_length]
     return s
-=======
-
-def remove_vowels(string):
-    """
-    Remove all vowels from a string.
-    """
-    return re.sub(r'[aeiouAEIOU]', '', string)
-    # return ''.join(filter(lambda x: x not in 'aeiouAEIOU', string))
->>>>>>> 67929bcd57eac530a59aaaf5becab516bc96bb0f
 
 
 def roman_numeral_to_int(s: str) -> int:
