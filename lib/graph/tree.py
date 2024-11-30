@@ -102,8 +102,7 @@ def get_min_depth_of_binary_tree(root) -> int:
     return 1 + min(get_min_depth_of_binary_tree(root.left), get_min_depth_of_binary_tree(root.right))
 
 
-
-def has_path_sum(self, root, target_sum: int) -> bool:
+def has_path_sum(root, target_sum: int) -> bool:
     """
     Check if a binary tree has a path with a given sum on root-to-leaf paths using DFS.
     Args:
@@ -168,43 +167,69 @@ def is_symmetric_tree(root) -> bool:
 
 
 if __name__ == '__main__':
+    ## Visualize the sample binary tree
+    root1 = TreeNode(3)
+    root1.left = TreeNode(9)
+    root1.right = TreeNode(20)
+    root1.right.left = TreeNode(15)
+    root1.right.right = TreeNode(7)
+    tree_string = '   3\n' \
+                  '  / \\\n' \
+                  ' 9  20\n' \
+                  '    / \\\n' \
+                  '   15  7'
+    print(tree_string)
+
     ## Test get_average_of_levels_in_binary_tree
     print()
     print('Test get_average_of_levels_in_binary_tree with a binary tree with'
           '[3, 9, 20, null, null, 15, 7] which is [3.0, 14.5, 11.0]')
-    root = TreeNode(3)
-    root.left = TreeNode(9)
-    root.right = TreeNode(20)
-    root.right.left = TreeNode(15)
-    root.right.right = TreeNode(7)
-    print(get_average_of_levels_in_binary_tree(root))
+    print(get_average_of_levels_in_binary_tree(root1))
 
     ## Test get_max_depth_of_binary_tree
     print()
     print('Test get_max_depth_of_binary_tree with a binary tree with'
-          '[3, 9, 20, null, null, 15, 7]')
-    root = TreeNode(3)
-    root.left = TreeNode(9)
-    root.right = TreeNode(20)
-    root.right.left = TreeNode(15)
-    root.right.right = TreeNode(7)
-    print(get_max_depth_of_binary_tree(root))
+          '[3, 9, 20, null, null, 15, 7] which is 3')
+    print(get_max_depth_of_binary_tree(root1))
+
+    ## Test get_min_depth_of_binary_tree
+    print()
+    print('Test get_min_depth_of_binary_tree with a binary tree with'
+          '[3, 9, 20, null, null, 15, 7] which is 2')
+    print(get_min_depth_of_binary_tree(root1))
+
+    ## Test has_path_sum
+    print()
+    print('Test has_path_sum with a binary tree with'
+          '[5, 4, 8, 11, null, 13, 4, 7, 2, null, null, null, 1] and 22 which is True')
+    root2 = TreeNode(5,
+                     TreeNode(4,
+                              TreeNode(11,
+                                       TreeNode(7),
+                                       TreeNode(2)),
+                              TreeNode(8,
+                                       TreeNode(13),
+                                       TreeNode(4))),
+                    TreeNode(1))
+    print(has_path_sum(root2, 22))
+
+    ## Test is_tree_height_balanced
+    print()
+    print('Test is_tree_height_balanced with a binary tree with'
+          '[3, 9, 20, null, null, 15, 7] which is True')
+    print(is_tree_height_balanced(root1))
 
     ## Test in_order_traversal
     print()
     print('Test in_order_traversal with a binary tree with [3, 9, 20, null, null, 15, 7]')
-    root = TreeNode(3,
-                    TreeNode(9),
-                    TreeNode(20,
-                             TreeNode(15), TreeNode(7)))
-    print(in_order_traversal(root))
+    print(in_order_traversal(root1))
 
     ## Test is_symmetric_tree
     print()
     print('Test is_symmetric_tree with a symmetric binary tree with [1, 2, 2, 3, 4, 4, 3]')
-    root = TreeNode(1,
-                    TreeNode(2,
-                             TreeNode(4), TreeNode(3)),
-                    TreeNode(2,
-                             TreeNode(3), TreeNode(4)))
-    print(is_symmetric_tree(root))
+    root3 = TreeNode(1,
+                     TreeNode(2,
+                              TreeNode(4), TreeNode(3)),
+                     TreeNode(2,
+                              TreeNode(3), TreeNode(4)))
+    print(is_symmetric_tree(root3))
