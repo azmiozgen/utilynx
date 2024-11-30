@@ -1,3 +1,6 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
 import os
 
 import cv2
@@ -6,28 +9,31 @@ from PIL import Image, ImageColor, ImageDraw, ImageFont
 
 from numeric import get_l2_norm
 
+
 def crop_pil_image(image, bbox):
-    '''
+    """
     Crop a PIL image
     bbox: [x1, y1, x2, y2]
-    '''
+    """
     return image.crop(bbox)
 
+
 def draw_rectangles_on_pil_image(image, rectangles, color=(0, 0, 255), width=3):
-    '''
+    """
     Draw rectangles on a PIL image
     image: PIL image
     rectangles: (x1, y1, x2, y2)
-    '''
+    """
     draw = ImageDraw.Draw(image)
     for rectangle in rectangles:
         draw.rectangle(rectangle, outline=color, width=width)
     return image
 
+
 def draw_bbox_on_image(image, bbox, text,
                        color='black', font=None, font_size=16, text_angle=-45,
                        text_color='black', thickness=4):
-    '''
+    """
     Draw bounding boxes on an image with given text
     image: PIL image
     bbox: (x1, y1, x2, y2)
@@ -38,7 +44,7 @@ def draw_bbox_on_image(image, bbox, text,
     text_angle: angle of the text
     text_color: color of the text
     thickness: thickness of the bounding box
-    '''
+    """
     x1, y1, x2, y2 = bbox
     draw = ImageDraw.Draw(image)
     draw.rectangle([x1, y1, x2, y2], outline=color, width=thickness)
@@ -62,13 +68,14 @@ def draw_bbox_on_image(image, bbox, text,
 
     return image
 
+
 def extend_line_segment(p1, p2, w):
-    '''
+    """
     Extend a line segment
     p1: (x1, y1)
     p2: (x2, y2)
     w: width of the image
-    '''
+    """
     x1, y1 = p1
     x2, y2 = p2
     x1_new = 0
@@ -78,16 +85,18 @@ def extend_line_segment(p1, p2, w):
     y2_new = int(y2 + slope * (x2_new - x2))
     return x1_new, y1_new, x2_new, y2_new
 
+
 def read_pil_image(image_file):
-    '''
+    """
     Read a PIL image
-    '''
+    """
     return Image.open(image_file)
 
+
 def trim_borders(image, bg=0):
-    '''
+    """
     Trim borders of binary image
-    '''
+    """
     h, w = image.shape[:2]
     region = np.where(image != bg)
     ymin, ymax = region[0].min(), region[0].max()
@@ -98,19 +107,21 @@ def trim_borders(image, bg=0):
     xmax = min(w, xmax + 1)
     return image[ymin:ymax, xmin:xmax]
 
+
 def write_pil_image(image, image_file):
-    '''
+    """
     Write a PIL image
-    '''
+    """
     image.save(image_file)
 
+
 def warp_four_corners(image, corners):
-    '''
+    """
     Warp four corners of a polygon on image
     Opposite corners will be aligned horizontally
     image: numpy array
     corners: ((x1, y1), (x2, y2), (x3, y3), (x4, y4)) from top to bottom clockwise
-    '''
+    """
     x1, y1 = corners[0]
     x2, y2 = corners[1]
     x3, y3 = corners[2]
@@ -129,6 +140,7 @@ def warp_four_corners(image, corners):
     image_warped = cv2.warpPerspective(image, transformation_matrix, (w, h), flags=cv2.INTER_LINEAR)
 
     return image_warped
+
 
 if __name__ == '__main__':
     image_file = os.path.join('asset', 'girl_with_pearl_earring.jpg')
