@@ -27,8 +27,8 @@
 * `fold -w1 <input_file> | sort -u -o <output_file>`    <!-- Problematic with non-printable characters -->
 * `sed 's/./&\n/g' <input_file> | sort -u -o <output_file>`
 
-## Find identical files by name in two directories
-* `diff -srq <directory1> <directory2> | grep identical`
+## Find identical filenames in two directories
+* `N=comm -12 <(ls <dir1> | sort) <(ls <dir2> | sort) | tee /dev/tty | wc -l; echo "Found $N identical filenames"`
 
 ## Generate ssh key
 `ssh-keygen -t rsa -b 4096 -o -a 100`
