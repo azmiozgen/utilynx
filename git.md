@@ -11,6 +11,16 @@
 ## Git pull-push with specific ssh-key
 `ssh-agent bash -c 'ssh-add ~/.ssh/azmi; git pull'`
 
+## List large files
+```
+git ls-files -s | while read -r mode sha stage file; do
+  size=$(git cat-file -s "$sha")
+  # convert to human readable (KB/MB/GB)
+  hr=$(numfmt --to=iec --suffix=B "$size")
+  echo -e "$hr\t$file"
+done | sort -h | tail -20
+```
+
 ## Pull with submodules
 * `git pull --recurse-submodules`
 
