@@ -39,3 +39,9 @@ done | sort -h | tail -20
 2. Take the deleted branch log id
 3. `git checkout <id>`
 4. `git branch <branch-name>`
+
+## Prune remote branches
+`git remote prune origin`
+
+## Prune local branches merged to main (safely)
+`!f() { \n    echo \"Switching to main branch...\"; \n    git checkout main; \n    echo \"Pulling latest changes...\"; \n    git pull origin main; \n    echo \"\"; \n    echo \"Branches that would be deleted:\"; \n    git branch --merged | grep -v \"\\\\*\\\\|main\\\\|master\\\\|develop\"; \n    echo \"\"; \n    echo \"Continue with deletion? (y/N)\"; \n    read answer; \n    if [ \"$answer\" = \"y\" ]; then \n        git branch --merged | grep -v \"\\\\*\\\\|main\\\\|master\\\\|develop\" | xargs -n 1 git branch -d; \n        echo \"Cleanup complete!\"; \n    else \n        echo \"Cleanup cancelled.\"; \n    fi; \n}; f`
