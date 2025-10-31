@@ -30,6 +30,9 @@
 ## Find identical filenames in two directories
 * `N=comm -12 <(ls <dir1> | sort) <(ls <dir2> | sort) | tee /dev/tty | wc -l; echo "Found $N identical filenames"`
 
+## Find identical directories in two directories
+* `N=comm -12 <(ls -d <dir1>/*/ | sort) <(ls -d <dir2>/*/ | sort) | tee /dev/tty | wc -l; echo "Found $N identical directories"`
+
 ## Generate ssh key
 `ssh-keygen -t rsa -b 4096 -o -a 100`
 
@@ -84,6 +87,9 @@
 
 #### Remove .jpg from file names
 `rename -n 's/.jpg//g' *`
+
+#### Rename .JPG to .jpg
+`rename -n 's/.JPG/.jpg/g' *`
 
 ## Separate pdf pages
 `pdftk <input_pdf> cat <page_number> output <output_pdf>`
