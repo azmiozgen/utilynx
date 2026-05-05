@@ -15,3 +15,6 @@
 
 ## Export
 `conda env export --name <environment_name> > environment.yml`
+
+## Clean unused packages and caches
+`conda clean --all`
